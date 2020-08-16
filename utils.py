@@ -133,10 +133,10 @@ def sorted_boxes(dt_boxes):
     num_boxes = dt_boxes.shape[0]
     sorted_boxes = sorted(dt_boxes, key=lambda x: (x[0][1], x[0][0]))
     _boxes = list(sorted_boxes)
-
+    
     for i in range(num_boxes - 1):
-        if abs(_boxes[i+1][0][1] - _boxes[i][0][1]) < 10 and \
-            (_boxes[i + 1][0][0] < _boxes[i][0][0]):
+        if abs(_boxes[i + 1][0][1] - _boxes[i][0][1]) < 10 and \
+                (_boxes[i + 1][0][0] < _boxes[i][0][0]):
             tmp = _boxes[i]
             _boxes[i] = _boxes[i + 1]
             _boxes[i + 1] = tmp
@@ -154,9 +154,9 @@ def get_rotate_crop_image(img, points):
     points[:, 1] = points[:, 1] - top
     img_crop_width = int(np.linalg.norm(points[0] - points[1]))
     img_crop_height = int(np.linalg.norm(points[0] - points[3]))
-    pts_std = np.float32([[0, 0], [img_crop_width, 0],\
-        [img_crop_width, img_crop_height], [0, img_crop_height]])
-
+    pts_std = np.float32([[0, 0], [img_crop_width, 0], \
+                          [img_crop_width, img_crop_height], [0, img_crop_height]])
+    
     M = cv2.getPerspectiveTransform(points, pts_std)
     dst_img = cv2.warpPerspective(
         img_crop,
@@ -171,3 +171,8 @@ def get_rotate_crop_image(img, points):
 def app_url(version, name):
     url = '/{}/{}'.format(version, name)
     return url
+
+def validateText(text):
+    rstr = r"[\/\\\*\"\<\>\|,?？~！!、]"
+    new_txt = re.sub(rstr, " ", text)
+    return new_txt
